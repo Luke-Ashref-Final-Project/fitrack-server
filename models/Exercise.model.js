@@ -23,7 +23,7 @@ const exerciseSchema = new Schema(
     ],
     clientid: {
       type: Schema.Types.ObjectId,
-      ref: "User", 
+      ref: "Client", 
       required: [true, "Client ID is required."],
     },
     coachid: {
