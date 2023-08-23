@@ -6,7 +6,7 @@ router.get("/", (req, res, next) => {
   res.json("All good in here");
 });
 
-router.post("/upload",fileUploader.single("image"), (req, res)=>{
+/* router.post("/upload",fileUploader.single("image"), (req, res)=>{
   if (!req.file) {
     next(new Error("No file uploaded!"));
     return;
@@ -16,7 +16,7 @@ router.post("/upload",fileUploader.single("image"), (req, res)=>{
   // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
   
   res.json({ image: req.file.path });
-})
+}) */
 
 
 module.exports = router;
