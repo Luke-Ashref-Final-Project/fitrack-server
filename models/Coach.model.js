@@ -17,6 +17,10 @@ const coachSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    userType: {
+      type: String,
+      default: "coach"
+    },
   },
   {
     timestamps: true,

@@ -17,6 +17,10 @@ const clientSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    userType: {
+      type: String,
+      default: "client"
+    },
   },
   {
     timestamps: true,

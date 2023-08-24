@@ -28,9 +28,9 @@ const login = async (req, res, next) => {
     const passwordCorrect = await bcrypt.compare(password, foundUser.password);
 
     if (passwordCorrect) {
-      const { _id, email, username } = foundUser;
+      const { _id, email, username, userType } = foundUser;
 
-      const payload = { _id, email, username };
+      const payload = { _id, email, username, userType };
 
       const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
         algorithm: "HS256",
