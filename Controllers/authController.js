@@ -36,8 +36,8 @@ const login = async (req, res, next) => {
         algorithm: "HS256",
         expiresIn: "6h",
       });
-
-      return res.status(200).json({ authToken: authToken });
+      // Set the user as the payload, can be changed to a different variable and sent to the frontend
+      return res.status(200).json({ authToken: authToken, user: payload  });
     }
 
     return res.status(401).json({ message: "Unable to authenticate the user" });
