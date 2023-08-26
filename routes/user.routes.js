@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { isAuthenticated }= require('../middleware/jwt.middleware')
-const { getUserProfile } = require('../controllers/userController');
+const { updatePassword } = require('../controllers/userController');
+const { isAuthenticated } = require('../middleware/jwt.middleware');
 
-router.get("/profile", isAuthenticated, getUserProfile );
-// can export the payload and import it here, create an endpoint in react to handle it
+router.put("/profile/password",isAuthenticated, updatePassword);
 
 module.exports = router;

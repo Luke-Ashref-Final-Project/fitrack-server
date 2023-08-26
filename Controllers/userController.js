@@ -1,36 +1,45 @@
 const bcrypt = require("bcrypt");
-const Client = require("../models/Client.model");
-const Coach = require("../models/Coach.model");
-const jwt = require('jsonwebtoken');
+const Client = require('../models/Client.model');
+const Coach = require('../models/Coach.model');
 
-
-const getUserProfile = async (req, res) => {
+const updatePassword = async (req, res, next) => {
   try {
-    const { _id, username, userType } = req.user;
+    const { currentPassword, newPassword } = req.body;
 
-    let user;
+    const user = req.payload; 
 
-    if (userType === 'coach') {
-      user = await Coach.findById(_id);
-    } else if (userType === 'client') {
-      user = await Client.findById(_id);
+    let userModel;
+    if (user.userType === "client") {
+      userModel = Client; 
+    } else if (user.userType === "coach") {
+      userModel = Coach; 
+    } else {
+      return res.status(400).json({ message: "Invalid user type." });
     }
 
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+    const foundUser = await userModel.findById(user._id);
+
+    if (!foundUser) {
+      return res.status(401).json({ message: "User not found." });
     }
 
-    const userProfile = {
-      username: username,
-      userType: userType,
-    };
+    const passwordCorrect = await bcrypt.compare(currentPassword, foundUser.password);
 
-    res.json(userProfile);
-  } catch (err) {
-    res.status(500).json({ message: 'Internal server error' });
+    if (!passwordCorrect) {
+      return res.status(401).json({ message: "Incorrect current password." });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    foundUser.password = hashedNewPassword;
+    await foundUser.save();
+
+    return res.status(200).json({ message: "Password updated successfully." });
+  } catch (error) {
+    next(error);
   }
 };
 
 module.exports = {
-  getUserProfile,
+  updatePassword,
 };
