@@ -19,8 +19,12 @@ const coachSchema = new Schema(
     },
     userType: {
       type: String,
-      default: "coach"
+      default: "coach",
     },
+    subscribersIds: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Client',
+    }],
   },
   {
     timestamps: true,
