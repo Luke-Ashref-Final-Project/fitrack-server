@@ -17,6 +17,10 @@ const clientSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    image: {
+      type: String,
+      default: "/images/default.png"
+    },
     userType: {
       type: String,
       default: "client"

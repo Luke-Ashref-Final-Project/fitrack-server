@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const Client = require("../models/Client.model");
 const Coach = require("../models/Coach.model");
 
+
 const updatePassword = async (req, res, next) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -73,10 +74,25 @@ const getAllCoaches = async (req, res, next) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+const uploadPhoto = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      next(new Error("No file uploaded!"));
+      return;
+    }
+    // Get the URL of the uploaded file and send it as a response.
+    // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
+    res.json({ fileUrl: req.file.path });
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 module.exports = {
   updatePassword,
   getAllSubscribers,
   getAllCoaches,
+  uploadPhoto,
 };
