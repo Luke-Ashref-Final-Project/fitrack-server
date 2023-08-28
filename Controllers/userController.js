@@ -63,7 +63,20 @@ const getAllSubscribers = async (req, res, next) => {
   }
 };
 
+const getAllCoaches = async (req, res, next) => {
+  try {
+    const coaches = await Coach.find().select('username');
+    if (!coaches) {
+      return res.status(404).json({ message: "No coaches found" });
+    }
+    res.json(coaches);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 module.exports = {
   updatePassword,
   getAllSubscribers,
+  getAllCoaches,
 };
