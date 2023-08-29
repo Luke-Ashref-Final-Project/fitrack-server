@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const Client = require("../models/Client.model");
 const Coach = require("../models/Coach.model");
+const jwt = require("jsonwebtoken");
+
 
 
 const updatePassword = async (req, res, next) => {
@@ -85,8 +87,7 @@ const getAllCoaches = async (req, res, next) => {
 const uploadPhoto = async (req, res, next) => {
   try {
     if (!req.file) {
-      next(new Error("No file uploaded!"));
-      return;
+      throw new Error("No file uploaded!");;
     }
     
     const imageUrl = req.file.path; 
@@ -108,17 +109,16 @@ const uploadPhoto = async (req, res, next) => {
       { image: imageUrl },
       { new: true }
     );
-    //const { _id, email, username, image, userType } = updatedUser;
-    //res.json({ updatedUser: { _id, email, username, image, userType } });
+    // Update the payload
+    const newPayload = { ...req.payload, image: imageUrl };
+    const newToken = jwt.sign(newPayload, process.env.TOKEN_SECRET);
+    res.json({ message: "Profile picture updated successfully.", user: foundUser, token: newToken });
 
     if (!foundUser) {
       return res.status(404).json({ message: "User not found." });
     }
 
-    // Send the updated user data or confirmation
-    res.json({ message: "Profile picture updated successfully.", user: foundUser });
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
