@@ -42,6 +42,8 @@ const updatePassword = async (req, res, next) => {
   }
 };
 
+//////////////////////////////////////////////////////////
+
 const getAllSubscribers = async (req, res, next) => {
   try {
     const user = req.payload;
@@ -64,6 +66,8 @@ const getAllSubscribers = async (req, res, next) => {
   }
 };
 
+///////////////////////////////////////////////////////////////////////////
+
 const getAllCoaches = async (req, res, next) => {
   try {
     const coaches = await Coach.find().select('username');
@@ -76,19 +80,49 @@ const getAllCoaches = async (req, res, next) => {
   }
 };
 
+////////////////////////////////////////////////////////////////////////////
+
 const uploadPhoto = async (req, res, next) => {
   try {
     if (!req.file) {
       next(new Error("No file uploaded!"));
       return;
     }
-    // Get the URL of the uploaded file and send it as a response.
-    // 'fileUrl' can be any name, just make sure you remember to use the same when accessing it on the frontend
-    res.json({ fileUrl: req.file.path });
+    
+    const imageUrl = req.file.path; 
+    const userType = req.payload.userType; 
+    const userId = req.payload._id; 
+    
+    let userModel;
+
+    if (userType === "client") {
+      userModel = Client;
+    } else if (userType === "coach") {
+      userModel = Coach;
+    } else {
+      return res.status(400).json({ message: "Invalid user type." });
+    }
+
+    const foundUser = await userModel.findByIdAndUpdate(
+      userId,
+      { image: imageUrl },
+      { new: true }
+    );
+    //const { _id, email, username, image, userType } = updatedUser;
+    //res.json({ updatedUser: { _id, email, username, image, userType } });
+
+    if (!foundUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Send the updated user data or confirmation
+    res.json({ message: "Profile picture updated successfully.", user: foundUser });
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    next(error);
   }
-}
+};
+
 
 module.exports = {
   updatePassword,
