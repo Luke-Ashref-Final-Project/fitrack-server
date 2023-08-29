@@ -44,8 +44,7 @@ const updatePassword = async (req, res, next) => {
   }
 };
 
-//////////////////////////////////////////////////////////
-
+///////////////////////////////////////////////////////////////////////////
 const getAllSubscribers = async (req, res, next) => {
   try {
     const user = req.payload;
@@ -72,7 +71,7 @@ const getAllSubscribers = async (req, res, next) => {
 
 const getAllCoaches = async (req, res, next) => {
   try {
-    const coaches = await Coach.find().select('username');
+    const coaches = await Coach.find().select('username image');
     if (!coaches) {
       return res.status(404).json({ message: "No coaches found" });
     }
