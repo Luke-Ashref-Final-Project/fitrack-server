@@ -1,16 +1,18 @@
 const Coach = require("../models/Coach.model");
 
 // Work in progress
-const subscribe = async () => {
+const subscribe = async (req, res, next) => {
     try {
         const user = req.payload;
+        console.log(user)
         const { coachId } = req.params;
+        console.log(coachId)
         const clientId = user._id;
 
         const coach = await Coach.findById(coachId);
 
         if (!coach) {
-          return res.status(404).json({ message: 'Coach not found.' });
+          return res.status(400).json({ message: 'Coach not found.' });
         }
 
         if (coach.subscribersIds.includes(clientId)) {
