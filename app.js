@@ -22,13 +22,16 @@ const authRoutes = require("./routes/auth.routes");
 app.use("/", authRoutes);
 
 const clientSignupRoutes = require("./routes/client-signup.router")
-app.use("/", clientSignupRoutes)
+app.use("/", clientSignupRoutes);
 
 const coachSignupRoutes = require("./routes/coach-signup.router")
-app.use("/", coachSignupRoutes)
+app.use("/", coachSignupRoutes);
 
 const userRoutes = require("./routes/user.routes")
-app.use("/", userRoutes)
+app.use("/", userRoutes);
+
+const coachRoutes = require ("./routes/coach.routes")
+app.use("/", coachRoutes);
 
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes

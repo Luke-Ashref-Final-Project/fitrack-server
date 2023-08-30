@@ -1,5 +1,4 @@
 const Coach = require("../models/Coach.model");
-const jwt = require("jsonwebtoken");
 
 // Work in progress
 const subscribe = async () => {
