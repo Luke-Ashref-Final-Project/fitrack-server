@@ -9,7 +9,9 @@ const updatePassword = async (req, res, next) => {
   try {
     const { currentPassword, newPassword } = req.body;
     const user = req.payload;
+
     let userModel;
+
     if (user.userType === "client") {
       userModel = Client;
     } else if (user.userType === "coach") {
@@ -31,6 +33,21 @@ const updatePassword = async (req, res, next) => {
 
     if (!passwordCorrect) {
       return res.status(401).json({ message: "Incorrect current password." });
+    }
+
+    const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+    if (!passwordRegex.test(newPassword)) {
+      return res.status(400).json({
+        message:
+          "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
+      });
+    }
+
+    if (await bcrypt.compare(newPassword, foundUser.password)) {
+      return res.status(400).json({
+        message:
+          "New password can't be the current password"
+      });
     }
 
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
