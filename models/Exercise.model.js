@@ -15,12 +15,12 @@ const exerciseSchema = new Schema(
       type: String,
       required: [true, "Description is required."],
     },
-    bodyparts: [
+    bodypart: 
       {
         type: String,
         required: [true, "At least one body part is required."],
       },
-    ],
+    
     clientid: {
       type: Schema.Types.ObjectId,
       ref: "Client", 
