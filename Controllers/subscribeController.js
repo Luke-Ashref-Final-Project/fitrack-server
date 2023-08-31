@@ -20,7 +20,7 @@ const subscribe = async (req, res, next) => {
 
         coach.subscribersIds.push(clientId);
         await coach.save();
-        return res.json({ message: 'Subscribed successfully.' });
+        return res.status(200).json({ message: 'Subscribed successfully.' });
 
     } catch (error) {
         console.log("Subscribe error:", error)
@@ -47,7 +47,7 @@ const unSubscribe = async (req, res, next) => {
         
         coach.subscribersIds = coach.subscribersIds.filter(subscriberId => !subscriberId.equals(clientId));
         await coach.save();
-        return res.json({ message: 'Unsubscribed successfully.' });
+        return res.status(200).json({ message: 'Unsubscribed successfully.' });
 
     } catch (error) {
         console.log("Unsubcribe error", error);

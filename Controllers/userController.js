@@ -71,7 +71,7 @@ const getAllSubscribers = async (req, res, next) => {
       return res.status(400).json({ message: "Missing user ID" });
     }
 
-    const theCoach = await Coach.findById(id).populate("subscribersIds");
+    const theCoach = await Coach.findById(id).select("username image").populate("subscribersIds");
     if (!theCoach) {
       console.log("No coach found for ID:", id);
       return res.status(404).json({ message: "Coach not found" });
