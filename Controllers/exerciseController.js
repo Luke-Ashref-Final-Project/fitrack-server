@@ -1,5 +1,23 @@
 const Exercise = require("../models/Exercise.model");
 
+const viewExercisesOfCoach = async (req, res, next) => {
+  try {
+    const { coachId } = req.body;
+    if (coachId === "") {
+      return res.status(400).json({ message: "Cannot find exercises" });
+    }
+
+    const fetchedExercises = Exercise.find({ coachid: coachId }).then();
+
+    if (fetchedExercises) {
+      return res.status(200).json(fetchedExercises);
+    }
+  } catch (err) {
+    next(err);
+    console.log(err);
+  }
+};
+
 const createNewExercise = async (req, res, next) => {
   
   try {
