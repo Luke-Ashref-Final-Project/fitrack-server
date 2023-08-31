@@ -33,6 +33,10 @@ app.use("/", userRoutes);
 const coachRoutes = require ("./routes/coach.routes")
 app.use("/", coachRoutes);
 
+
+const exerciseRoute = require ("./routes/exercise.routes")
+app.use("/", exerciseRoute);
+
 const subscribeRoutes = require("./routes/subscribe.routes")
 app.use("/", subscribeRoutes);
 
