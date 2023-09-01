@@ -1,7 +1,24 @@
 const Exercise = require("../models/Exercise.model");
+// let ObjectId = require("mongoose").Types.ObjectId;
+
+const viewExercisesOfCoach = async (req, res, next) => {
+  try {
+    const { coachId } = req.body;
+    if (coachId === "") {
+      return res.status(400).json({ message: "Cannot find exercises" });
+    }
+    const fetchedExercises = await Exercise.find({ coachid: coachId });
+    if (fetchedExercises) {
+      return res.status(200).json(fetchedExercises);
+    }
+  } catch (err) {
+    next(err);
+    console.log(err);
+  }
+};
+
 
 const createNewExercise = async (req, res, next) => {
-  
   try {
     const { clientId, coachId, bodyPart, image, description, name } = req.body;
     if (
@@ -34,4 +51,5 @@ const createNewExercise = async (req, res, next) => {
 
 module.exports = {
   createNewExercise,
+  viewExercisesOfCoach,
 };
