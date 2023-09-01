@@ -2,10 +2,10 @@ const Pusher = require('pusher');
 const Coach = require("../models/Coach.model");
 
 const pusher = new Pusher({
-  appId: '1662874',
-  key: '351001be1479cf6f3b38',
-  secret: 'f1a01c64c55624e548fd',
-  cluster: 'eu',
+  appId: process.env.APPID,
+  key: process.env.KEY,
+  secret: process.env.SECRET,
+  cluster: process.env.CLUSTER,
   useTLS: true,
 });
 
