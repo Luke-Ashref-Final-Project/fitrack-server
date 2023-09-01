@@ -1,12 +1,21 @@
+const Pusher = require('pusher');
 const Coach = require("../models/Coach.model");
+
+const pusher = new Pusher({
+  appId: '1662874',
+  key: '351001be1479cf6f3b38',
+  secret: 'f1a01c64c55624e548fd',
+  cluster: 'eu',
+  useTLS: true,
+});
+
 
 const subscribe = async (req, res, next) => {
     try {
         const user = req.payload;
-        console.log(user)
         const { coachId } = req.params;
-        console.log(coachId)
         const clientId = user._id;
+        const clientName = user.username
 
         const coach = await Coach.findById(coachId);
 
@@ -17,6 +26,14 @@ const subscribe = async (req, res, next) => {
         if (coach.subscribersIds.includes(clientId)) {
             return res.status(400).json({ message: 'Already subscribed to this coach.' });
         }
+
+        // Notify the coach using Pusher
+        const notification = {
+            message: `${clientName} subscribed to you!`,
+            clientId: clientId,
+        };
+        pusher.trigger(`coach-${coachId}`, 'new-subscriber', notification);
+
 
         coach.subscribersIds.push(clientId);
         await coach.save();
