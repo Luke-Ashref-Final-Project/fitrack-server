@@ -19,7 +19,27 @@ const indexRoutes = require("./routes/index.routes");
 app.use("/api", indexRoutes);
 
 const authRoutes = require("./routes/auth.routes");
-app.use("/auth", authRoutes);
+app.use("/", authRoutes);
+
+const clientSignupRoutes = require("./routes/client-signup.router")
+app.use("/", clientSignupRoutes);
+
+const coachSignupRoutes = require("./routes/coach-signup.router")
+app.use("/", coachSignupRoutes);
+
+const userRoutes = require("./routes/user.routes")
+app.use("/", userRoutes);
+
+const coachRoutes = require ("./routes/coach.routes")
+app.use("/", coachRoutes);
+
+
+const exerciseRoute = require ("./routes/exercise.routes")
+app.use("/", exerciseRoute);
+
+const subscribeRoutes = require("./routes/subscribe.routes")
+app.use("/", subscribeRoutes);
+
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
