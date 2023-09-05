@@ -1,9 +1,42 @@
 const Exercise = require("../models/Exercise.model");
 // let ObjectId = require("mongoose").Types.ObjectId;
 
+const viewOneExercise = async (req, res, next) => {
+  try {
+    const { exerciseId } = req.params;
+    if (exerciseId === "") {
+      return res.status(400).json({ message: "Cannot find exercise" });
+    }
+    const fetchExercise = await Exercise.findById(exerciseId);
+    if (fetchExercise) {
+      console.log("THE fetchExercise", fetchExercise);
+      return res.status(200).json(fetchExercise);
+    }
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+const viewExercisesOfClient = async (req, res, next) => {
+  try {
+    const { clientId } = req.params;
+    if (clientId === "") {
+      return res.status(400).json({ message: "Cannot find exercises" });
+    }
+    const fetchedExercises = await Exercise.find({ clientid: clientId });
+    if (fetchedExercises) {
+      return res.status(200).json(fetchedExercises);
+    }
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 const viewExercisesOfCoach = async (req, res, next) => {
   try {
-    const { coachId } = req.body;
+    const { coachId } = req.params;
     if (coachId === "") {
       return res.status(400).json({ message: "Cannot find exercises" });
     }
@@ -16,7 +49,6 @@ const viewExercisesOfCoach = async (req, res, next) => {
     console.log(err);
   }
 };
-
 
 const createNewExercise = async (req, res, next) => {
   try {
@@ -52,4 +84,6 @@ const createNewExercise = async (req, res, next) => {
 module.exports = {
   createNewExercise,
   viewExercisesOfCoach,
+  viewExercisesOfClient,
+  viewOneExercise,
 };
