@@ -1,6 +1,23 @@
 const Exercise = require("../models/Exercise.model");
 // let ObjectId = require("mongoose").Types.ObjectId;
 
+const viewOneExercise = async (req, res, next) => {
+  try {
+    const { exerciseId } = req.params;
+    if (exerciseId === "") {
+      return res.status(400).json({ message: "Cannot find exercise" });
+    }
+    const fetchExercise = await Exercise.findById(exerciseId);
+    if (fetchExercise) {
+      console.log("THE fetchExercise", fetchExercise);
+      return res.status(200).json(fetchExercise);
+    }
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
 const viewExercisesOfClient = async (req, res, next) => {
   try {
     const { clientId } = req.params;
@@ -31,7 +48,7 @@ const viewExercisesOfCoach = async (req, res, next) => {
     next(err);
     console.log(err);
   }
-}
+};
 
 const createNewExercise = async (req, res, next) => {
   try {
@@ -68,4 +85,5 @@ module.exports = {
   createNewExercise,
   viewExercisesOfCoach,
   viewExercisesOfClient,
+  viewOneExercise,
 };
