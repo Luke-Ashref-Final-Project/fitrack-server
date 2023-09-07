@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const { isAuthenticated } = require("../middleware/jwt.middleware");
+
 const {
   createNewExercise,
   viewExercisesOfCoach,
   viewExercisesOfClient,
   viewOneExercise,
 } = require("../Controllers/exerciseController");
-const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 router.post("/exercise/new", createNewExercise);
 router.get("/exercises/coach/:coachId", viewExercisesOfCoach);

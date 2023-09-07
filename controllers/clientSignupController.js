@@ -1,13 +1,14 @@
 const bcrypt = require("bcrypt");
-const Coach = require("../models/Coach.model");
+const Client = require("../models/Client.model");
 
 
-const coachSignup = async (req, res, next) => {
+
+const clientSignup = async (req, res, next) => {
   try {
-    const { email, password, username } = req.body;
-
-    if (email === "" || password === "" || username === "") {
-        return res.status(400).json({ message: "Provide email, password and username" });
+    const { email, password, username, description } = req.body;
+    
+    if (email === "" || password === "" || username === "" || description === "") {
+        return res.status(400).json({ message: "Provide email, password, username and description" });
       }
     
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -23,22 +24,22 @@ const coachSignup = async (req, res, next) => {
         });
       }
 
-    const foundCoach = await Coach.findOne({ email });
-    if (foundCoach) {
-        return res.status(400).json({ message: "Coach already exists." });
+    const foundClient = await Client.findOne({ email });
+    if (foundClient) {
+        return res.status(400).json({ message: "Client already exists." });
     }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const createdCoach = await Coach.create({ email, password: hashedPassword, username });
+    const createdClient = await Client.create({ email, password: hashedPassword, username, description });
 
-    res.status(201).json({ coach: createdCoach });
+    res.status(201).json({ client: createdClient });
   } catch (error) {
     next(error);
   }
 };
 
 module.exports = {
-    coachSignup
+    clientSignup
 }
