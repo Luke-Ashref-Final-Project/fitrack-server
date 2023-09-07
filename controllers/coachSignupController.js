@@ -4,10 +4,10 @@ const Coach = require("../models/Coach.model");
 
 const coachSignup = async (req, res, next) => {
   try {
-    const { email, password, username } = req.body;
+    const { email, password, username, description } = req.body;
 
-    if (email === "" || password === "" || username === "") {
-        return res.status(400).json({ message: "Provide email, password and username" });
+    if (email === "" || password === "" || username === "" || description === " ") {
+        return res.status(400).json({ message: "Provide email, password username and description" });
       }
     
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -31,7 +31,7 @@ const coachSignup = async (req, res, next) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const createdCoach = await Coach.create({ email, password: hashedPassword, username });
+    const createdCoach = await Coach.create({ email, password: hashedPassword, username, description });
 
     res.status(201).json({ coach: createdCoach });
   } catch (error) {
