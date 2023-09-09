@@ -7,20 +7,22 @@ const variationSchema = new Schema(
       ref: "Exercise", // Reference to the Exercise model
       required: [true, "Exercise ID is required."],
     },
-    reps: {
+    // variations: {
+    //   type: Array,
+    //   ref:"Variation",
+    // },
+    weight:{
       type: Number,
-      required: [true, "Reps count is required."],
     },
-    sets: {
+    reps:{
       type: Number,
-      required: [true, "Sets count is required."],
-    },
+    }
   },
   {
     timestamps: true,
   }
 );
 
-const ExerciseVariation = model("ExerciseVariation", variationSchema);
+const Variation = model("ExerciseVariation", variationSchema);
 
-module.exports = ExerciseVariation;
+module.exports = Variation;
