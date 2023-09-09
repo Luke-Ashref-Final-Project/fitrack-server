@@ -5,6 +5,6 @@ const { createVariation, updateVariation, deleteVariation } = require("../contro
 
 router.post("/variation/new", createVariation);
 router.put("/variation/:variationId/update", updateVariation);
-router.delete("/varriation/:variationId/delete", deleteVariation);
+router.delete("/variation/:variationId/delete", deleteVariation);
 
 module.exports = router;
