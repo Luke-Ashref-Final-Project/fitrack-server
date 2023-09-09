@@ -1,5 +1,5 @@
 const Exercise = require("../models/Exercise.model");
-// let ObjectId = require("mongoose").Types.ObjectId;
+const mongoose = require("mongoose");
 
 const viewOneExercise = async (req, res, next) => {
   try {
@@ -81,9 +81,35 @@ const createNewExercise = async (req, res, next) => {
   }
 };
 
+const updateExercise = async (req, res, next) => {
+  try {
+    const { description, variationId } = req.body;
+    const { exerciseId } = req.params;
+    const updatedExercise = await Exercise.findByIdAndUpdate(
+      exerciseId,
+      {
+        description: description,
+        variation: new mongoose.Types.ObjectId(variationId),
+      },
+      { new: true }
+    );
+    if (updatedExercise) {
+      return res.status(200).json(updatedExercise);
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const deleteExercise = () => {
+  
+};
+
 module.exports = {
   createNewExercise,
   viewExercisesOfCoach,
   viewExercisesOfClient,
   viewOneExercise,
+  updateExercise,
 };

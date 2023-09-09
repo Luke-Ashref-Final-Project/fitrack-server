@@ -7,11 +7,13 @@ const {
   viewExercisesOfCoach,
   viewExercisesOfClient,
   viewOneExercise,
+  updateExercise,
 } = require("../Controllers/exerciseController");
 
 router.post("/exercise/new", createNewExercise);
 router.get("/exercises/coach/:coachId", viewExercisesOfCoach);
 router.get("/exercises/client/:clientId", viewExercisesOfClient);
 router.get("/exercise/:exerciseId", viewOneExercise);
+router.post("/exercise/:exerciseId", updateExercise);
 
 module.exports = router;
