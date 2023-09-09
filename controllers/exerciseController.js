@@ -104,7 +104,7 @@ const updateExercise = async (req, res, next) => {
 
 const deleteExercise = async (req, res, next) => {
   try {
-    const { exerciseId } = req.body;
+    const { exerciseId } = req.params;
 
     const delExercies = await Exercise.findByIdAndRemove(exerciseId)
     if (!delExercies) {
