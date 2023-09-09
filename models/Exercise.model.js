@@ -33,7 +33,7 @@ const exerciseSchema = new Schema(
     },
     variation: {
       type: Schema.Types.ObjectId,
-      ref: "ExerciseVariation",
+      ref: "Variation",
     },
   },
   {
