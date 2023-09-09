@@ -102,8 +102,20 @@ const updateExercise = async (req, res, next) => {
   }
 };
 
-const deleteExercise = () => {
-  
+const deleteExercise = async (req, res, next) => {
+  try {
+    const { exerciseId } = req.body;
+
+    const delExercies = await Exercise.findByIdAndRemove(exerciseId)
+    if (!delExercies) {
+      return res.status(404).json({message: "Exercise not found"});
+    }
+
+    return res.status(200).json({message: "Exercise deleted successfully", delExercies});
+
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
@@ -112,4 +124,5 @@ module.exports = {
   viewExercisesOfClient,
   viewOneExercise,
   updateExercise,
+  deleteExercise,
 };
