@@ -31,10 +31,10 @@ const exerciseSchema = new Schema(
       ref: "Coach",
       required: [true, "Coach ID is required."],
     },
-    variation: {
+    variation: [{
       type: Schema.Types.ObjectId,
       ref: "Variation",
-    },
+    }],
   },
   {
     timestamps: true,
