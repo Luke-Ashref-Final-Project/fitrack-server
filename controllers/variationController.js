@@ -23,19 +23,18 @@ const createVariation = async (req, res, next) => {
 const updateVariation = async (req, res, next) => {
   try {
     const { weight, reps, variationId } = req.body;
+    console.log(req.body);
     const updateVar = await Variation.findByIdAndUpdate(
       variationId,
-      {weight: weight, reps: reps}
-    )
+      { weight: weight, reps: reps },
+      { new: true }
+    );
     if (!updateVar) {
       return res.status(404).json({ message: "Variation not found." });
     }
-
-
     return res
       .status(200)
       .json({ message: "variation updated successfully", updateVar });
-
   } catch (error) {
     console.log(error);
     next(error);
@@ -44,8 +43,8 @@ const updateVariation = async (req, res, next) => {
 
 const deleteVariation = async (req, res, next) => {
   try {
-    
     const { variationId } = req.body;
+    console.log("VariationId", variationId);
     const deleteVar = await Variation.findByIdAndRemove(variationId);
 
     if (!deleteVar) {
@@ -55,9 +54,9 @@ const deleteVariation = async (req, res, next) => {
     return res
       .status(200)
       .json({ message: "variation deleted successfully", deleteVar });
-
   } catch (error) {
     console.log(error);
+    next(error);
   }
 };
 
