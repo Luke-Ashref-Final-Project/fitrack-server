@@ -7,7 +7,7 @@ const viewOneExercise = async (req, res, next) => {
     if (exerciseId === "") {
       return res.status(400).json({ message: "Cannot find exercise" });
     }
-    const fetchExercise = await Exercise.findById(exerciseId);
+    const fetchExercise = await Exercise.findById(exerciseId).populate("variation");
     if (fetchExercise) {
       console.log("THE fetchExercise", fetchExercise);
       return res.status(200).json(fetchExercise);
@@ -85,11 +85,16 @@ const updateExercise = async (req, res, next) => {
   try {
     const { description, variationId } = req.body;
     const { exerciseId } = req.params;
+
+    if (!Array.isArray(variationId)) {
+      return res.status(400).json({ message: "variationId should be an array." });
+    }
+
     const updatedExercise = await Exercise.findByIdAndUpdate(
       exerciseId,
       {
         description: description,
-        variation: new mongoose.Types.ObjectId(variationId),
+        variation: variationId,
       },
       { new: true }
     );
