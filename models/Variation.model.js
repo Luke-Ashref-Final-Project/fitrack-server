@@ -2,18 +2,15 @@ const { Schema, model } = require("mongoose");
 
 const variationSchema = new Schema(
   {
-    exerciseid: {
-      type: Schema.Types.ObjectId,
-      ref: "Exercise", // Reference to the Exercise model
-      required: [true, "Exercise ID is required."],
+    weight: {
+      type: Number,
+      // required: true,
+      default: 0,
     },
     reps: {
       type: Number,
-      required: [true, "Reps count is required."],
-    },
-    sets: {
-      type: Number,
-      required: [true, "Sets count is required."],
+      // required: true,
+      default: 0,
     },
   },
   {
@@ -21,6 +18,6 @@ const variationSchema = new Schema(
   }
 );
 
-const ExerciseVariation = model("ExerciseVariation", variationSchema);
+const Variation = model("Variation", variationSchema);
 
-module.exports = ExerciseVariation;
+module.exports = Variation;

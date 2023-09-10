@@ -139,10 +139,42 @@ const uploadPhoto = async (req, res, next) => {
   }
 };
 
+////////////////////////////////////////////////////////
+
+const deleteProfile = async (req, res, next) => {
+  try {
+    const userId = req.payload._id; 
+    const userType = req.payload.userType; 
+
+    let userModel;
+
+    if (userType === "client") {
+      userModel = Client;
+    } else if (userType === "coach") {
+      userModel = Coach;
+    } else {
+      return res.status(400).json({ message: "Invalid user type." });
+    }
+    
+
+    const deleteUser = await userModel.findByIdAndRemove(userId)
+
+    if (!deleteUser) {
+      return res.status(404).json({ message: "User not found" })
+    }
+
+    return res.status(200).json({ message: "User was deleted successfully" })
+
+  } catch (error) {
+    console.log(error)
+  }
+};
+
 
 module.exports = {
   updatePassword,
   getAllSubscribers,
   getAllCoaches,
   uploadPhoto,
+  deleteProfile,
 };

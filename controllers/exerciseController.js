@@ -1,9 +1,42 @@
 const Exercise = require("../models/Exercise.model");
-// let ObjectId = require("mongoose").Types.ObjectId;
+const mongoose = require("mongoose");
+
+const viewOneExercise = async (req, res, next) => {
+  try {
+    const { exerciseId } = req.params;
+    if (exerciseId === "") {
+      return res.status(400).json({ message: "Cannot find exercise" });
+    }
+    const fetchExercise = await Exercise.findById(exerciseId).populate("variation");
+    if (fetchExercise) {
+      console.log("THE fetchExercise", fetchExercise);
+      return res.status(200).json(fetchExercise);
+    }
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
+
+const viewExercisesOfClient = async (req, res, next) => {
+  try {
+    const { clientId } = req.params;
+    if (clientId === "") {
+      return res.status(400).json({ message: "Cannot find exercises" });
+    }
+    const fetchedExercises = await Exercise.find({ clientid: clientId });
+    if (fetchedExercises) {
+      return res.status(200).json(fetchedExercises);
+    }
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
 
 const viewExercisesOfCoach = async (req, res, next) => {
   try {
-    const { coachId } = req.body;
+    const { coachId } = req.params;
     if (coachId === "") {
       return res.status(400).json({ message: "Cannot find exercises" });
     }
@@ -16,7 +49,6 @@ const viewExercisesOfCoach = async (req, res, next) => {
     console.log(err);
   }
 };
-
 
 const createNewExercise = async (req, res, next) => {
   try {
@@ -49,7 +81,53 @@ const createNewExercise = async (req, res, next) => {
   }
 };
 
+const updateExercise = async (req, res, next) => {
+  try {
+    const { description, variationId } = req.body;
+    const { exerciseId } = req.params;
+
+    if (!Array.isArray(variationId)) {
+      return res.status(400).json({ message: "variationId should be an array." });
+    }
+
+    const updatedExercise = await Exercise.findByIdAndUpdate(
+      exerciseId,
+      {
+        description: description,
+        variation: variationId,
+      },
+      { new: true }
+    );
+    if (updatedExercise) {
+      return res.status(200).json(updatedExercise);
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+const deleteExercise = async (req, res, next) => {
+  try {
+    const { exerciseId } = req.params;
+
+    const delExercies = await Exercise.findByIdAndRemove(exerciseId)
+    if (!delExercies) {
+      return res.status(404).json({message: "Exercise not found"});
+    }
+
+    return res.status(200).json({message: "Exercise deleted successfully", delExercies});
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   createNewExercise,
   viewExercisesOfCoach,
+  viewExercisesOfClient,
+  viewOneExercise,
+  updateExercise,
+  deleteExercise,
 };
