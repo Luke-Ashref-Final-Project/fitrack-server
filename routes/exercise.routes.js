@@ -9,7 +9,7 @@ const {
   viewOneExercise,
   updateExercise,
   deleteExercise,
-} = require("../Controllers/exerciseController");
+} = require("../controllers/exerciseController");
 
 router.post("/exercise/new", createNewExercise);
 router.get("/exercises/coach/:coachId", viewExercisesOfCoach);
