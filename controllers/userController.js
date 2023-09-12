@@ -170,6 +170,41 @@ const deleteProfile = async (req, res, next) => {
   }
 };
 
+/////////////////////////////////////////////////////////////
+
+const updateDescription = async (req, res, next) => {
+  try {
+    const { description } = req.body;
+    const user = req.payload;
+
+    let userModel;
+
+    if (user.userType === "client") {
+      userModel = Client;
+    } else if (user.userType === "coach") {
+      userModel = Coach;
+    } else {
+      return res.status(400).json({ message: "Invalid user type." });
+    }
+
+    const foundUser = await userModel.findById(user._id);
+
+    if (!foundUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    foundUser.description = description;
+    await foundUser.save();
+
+    return res.status(200).json({ message: "User's description was updated successfully" });
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
 
 module.exports = {
   updatePassword,
@@ -177,4 +212,5 @@ module.exports = {
   getAllCoaches,
   uploadPhoto,
   deleteProfile,
+  updateDescription,
 };
