@@ -1,14 +1,5 @@
-const Pusher = require('pusher');
+const pusher = require("../config/pusher.config");
 const Coach = require("../models/Coach.model");
-
-const pusher = new Pusher({
-  appId: process.env.APPID,
-  key: process.env.KEY,
-  secret: process.env.SECRET,
-  cluster: process.env.CLUSTER,
-  useTLS: true,
-});
-
 
 const subscribe = async (req, res, next) => {
     try {

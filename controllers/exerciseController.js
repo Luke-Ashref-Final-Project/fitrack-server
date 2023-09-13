@@ -1,5 +1,5 @@
 const Exercise = require("../models/Exercise.model");
-const mongoose = require("mongoose");
+const pusher = require('../config/pusher.config');
 
 const viewOneExercise = async (req, res, next) => {
   try {
