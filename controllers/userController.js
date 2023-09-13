@@ -176,6 +176,7 @@ const updateDescription = async (req, res, next) => {
   try {
     const { description } = req.body;
     const user = req.payload;
+    const userId = req.payload._id; 
 
     let userModel;
 
@@ -187,16 +188,24 @@ const updateDescription = async (req, res, next) => {
       return res.status(400).json({ message: "Invalid user type." });
     }
 
-    const foundUser = await userModel.findById(user._id);
+    const foundUser = await userModel.findByIdAndUpdate(
+      userId,
+      { description: description },
+      { new: true }
+    );
 
     if (!foundUser) {
       return res.status(404).json({ message: "User not found." });
     }
+    
+    const newPayload = { ...req.payload, description: description };
+    const newToken = jwt.sign(newPayload, process.env.TOKEN_SECRET);
 
-    foundUser.description = description;
-    await foundUser.save();
-
-    return res.status(200).json({ message: "User's description was updated successfully" });
+    return res.status(200).json({ 
+              message: "User's description was updated successfully",
+              user: foundUser,
+              token: newToken 
+            });
 
   } catch (error) {
     console.log(error);
