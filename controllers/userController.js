@@ -61,7 +61,7 @@ const updatePassword = async (req, res, next) => {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////
+
 const getAllSubscribers = async (req, res, next) => {
   try {
     const user = req.payload;
@@ -84,7 +84,6 @@ const getAllSubscribers = async (req, res, next) => {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////
 
 const getAllCoaches = async (req, res, next) => {
   try {
@@ -98,7 +97,6 @@ const getAllCoaches = async (req, res, next) => {
   }
 };
 
-////////////////////////////////////////////////////////////////////////////
 
 const uploadPhoto = async (req, res, next) => {
   try {
@@ -139,7 +137,6 @@ const uploadPhoto = async (req, res, next) => {
   }
 };
 
-////////////////////////////////////////////////////////
 
 const deleteProfile = async (req, res, next) => {
   try {
@@ -170,7 +167,6 @@ const deleteProfile = async (req, res, next) => {
   }
 };
 
-/////////////////////////////////////////////////////////////
 
 const updateDescription = async (req, res, next) => {
   try {

@@ -8,7 +8,7 @@ const getCoach = async (req, res, next) => {
         if (!coach) {
             return res.status(404).json({ message: 'Coach not found.' });
           }
-          // Need to exclude the password and other properties
+          
           return res.status(200).json({ coach: coach });
 
     } catch (error) {

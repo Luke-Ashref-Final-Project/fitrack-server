@@ -38,9 +38,7 @@ const subscribe = async (req, res, next) => {
 const unSubscribe = async (req, res, next) => {
     try {
         const user = req.payload;
-        console.log(user)
         const { coachId } = req.params;
-        console.log(coachId)
         const clientId = user._id;
 
         const coach = await Coach.findById(coachId).select("username image subscribersIds")
