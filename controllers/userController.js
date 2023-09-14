@@ -61,7 +61,7 @@ const updatePassword = async (req, res, next) => {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////
+
 const getAllSubscribers = async (req, res, next) => {
   try {
     const user = req.payload;
@@ -84,7 +84,6 @@ const getAllSubscribers = async (req, res, next) => {
   }
 };
 
-///////////////////////////////////////////////////////////////////////////
 
 const getAllCoaches = async (req, res, next) => {
   try {
@@ -98,7 +97,6 @@ const getAllCoaches = async (req, res, next) => {
   }
 };
 
-////////////////////////////////////////////////////////////////////////////
 
 const uploadPhoto = async (req, res, next) => {
   try {
@@ -139,7 +137,6 @@ const uploadPhoto = async (req, res, next) => {
   }
 };
 
-////////////////////////////////////////////////////////
 
 const deleteProfile = async (req, res, next) => {
   try {
@@ -171,10 +168,54 @@ const deleteProfile = async (req, res, next) => {
 };
 
 
+const updateDescription = async (req, res, next) => {
+  try {
+    const { description } = req.body;
+    const user = req.payload;
+    const userId = req.payload._id; 
+
+    let userModel;
+
+    if (user.userType === "client") {
+      userModel = Client;
+    } else if (user.userType === "coach") {
+      userModel = Coach;
+    } else {
+      return res.status(400).json({ message: "Invalid user type." });
+    }
+
+    const foundUser = await userModel.findByIdAndUpdate(
+      userId,
+      { description: description },
+      { new: true }
+    );
+
+    if (!foundUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    
+    const newPayload = { ...req.payload, description: description };
+    const newToken = jwt.sign(newPayload, process.env.TOKEN_SECRET);
+
+    return res.status(200).json({ 
+              message: "User's description was updated successfully",
+              user: foundUser,
+              token: newToken 
+            });
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
 module.exports = {
   updatePassword,
   getAllSubscribers,
   getAllCoaches,
   uploadPhoto,
   deleteProfile,
+  updateDescription,
 };

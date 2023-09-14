@@ -1,14 +1,5 @@
-const Pusher = require('pusher');
+const pusher = require("../config/pusher.config");
 const Coach = require("../models/Coach.model");
-
-const pusher = new Pusher({
-  appId: process.env.APPID,
-  key: process.env.KEY,
-  secret: process.env.SECRET,
-  cluster: process.env.CLUSTER,
-  useTLS: true,
-});
-
 
 const subscribe = async (req, res, next) => {
     try {
@@ -47,9 +38,7 @@ const subscribe = async (req, res, next) => {
 const unSubscribe = async (req, res, next) => {
     try {
         const user = req.payload;
-        console.log(user)
         const { coachId } = req.params;
-        console.log(coachId)
         const clientId = user._id;
 
         const coach = await Coach.findById(coachId).select("username image subscribersIds")

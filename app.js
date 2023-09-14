@@ -22,10 +22,10 @@ const authRoutes = require("./routes/auth.routes");
 app.use("/", authRoutes);
 
 const clientSignupRoutes = require("./routes/client-signup.router")
-app.use("/", clientSignupRoutes);
+app.use("/signup", clientSignupRoutes);
 
 const coachSignupRoutes = require("./routes/coach-signup.router")
-app.use("/", coachSignupRoutes);
+app.use("/signup", coachSignupRoutes);
 
 const userRoutes = require("./routes/user.routes")
 app.use("/", userRoutes);

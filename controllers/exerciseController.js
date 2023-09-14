@@ -1,5 +1,5 @@
 const Exercise = require("../models/Exercise.model");
-const mongoose = require("mongoose");
+const pusher = require('../config/pusher.config');
 
 const viewOneExercise = async (req, res, next) => {
   try {
@@ -52,7 +52,9 @@ const viewExercisesOfCoach = async (req, res, next) => {
 
 const createNewExercise = async (req, res, next) => {
   try {
-    const { clientId, coachId, bodyPart, image, description, name } = req.body;
+   
+    const { clientId, coachId, bodyPart, image, description, name, user } = req.body;
+    console.log(user.username)
     if (
       clientId === "" ||
       coachId === "" ||
@@ -74,6 +76,17 @@ const createNewExercise = async (req, res, next) => {
       bodypart: bodyPart,
     });
     if (createdExercise) {
+
+        // Notify the client using Pusher
+
+      const notification = {
+        message: `${user.username} sent you a new ${bodyPart} exercise!`,
+        coachId: coachId,
+      };
+      console.log(notification)
+
+      pusher.trigger(`client-${clientId}`, 'new-exercise', notification);
+
       return res.status(200).json(createdExercise);
     }
   } catch (err) {
