@@ -11,14 +11,14 @@ const {
   deleteExercise,
 } = require("../controllers/exerciseController");
 
-router.get("/exercises/coach/:coachId", viewExercisesOfCoach);
-router.get("/exercises/client/:clientId", viewExercisesOfClient);
-router.get("/exercise/:exerciseId", viewOneExercise);
+router.get("/exercises/coach/:coachId", isAuthenticated, viewExercisesOfCoach);
+router.get("/exercises/client/:clientId", isAuthenticated, viewExercisesOfClient);
+router.get("/exercise/:exerciseId", isAuthenticated, viewOneExercise);
 
-router.post("/exercise/new", createNewExercise);
+router.post("/exercise/new", isAuthenticated, createNewExercise);
 
-router.put("/exercise/:exerciseId", updateExercise);
+router.put("/exercise/:exerciseId", isAuthenticated, updateExercise);
 
-router.delete("/exercise/:exerciseId/delete", deleteExercise)
+router.delete("/exercise/:exerciseId/delete", isAuthenticated, deleteExercise)
 
 module.exports = router;
