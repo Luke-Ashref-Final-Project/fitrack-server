@@ -23,7 +23,6 @@ const createVariation = async (req, res, next) => {
 const updateVariation = async (req, res, next) => {
   try {
     const { weight, reps, variationId } = req.body;
-    console.log(req.body);
     const updateVar = await Variation.findByIdAndUpdate(
       variationId,
       { weight: weight, reps: reps },
@@ -44,7 +43,6 @@ const updateVariation = async (req, res, next) => {
 const deleteVariation = async (req, res, next) => {
   try {
     const { variationId } = req.body;
-    console.log("VariationId", variationId);
     const deleteVar = await Variation.findByIdAndRemove(variationId);
 
     if (!deleteVar) {
