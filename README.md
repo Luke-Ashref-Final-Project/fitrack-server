@@ -123,7 +123,7 @@ Variation model
 
 | HTTP Method | URL                         | Request Body                 | Success status | Error Status | Description                                                  |
 | ----------- | --------------------------- | ---------------------------- | -------------- | ------------ | ------------------------------------------------------------ |
-| GET         | `/auth/profile    `           | Saved session                | 200            | 404          | Check if user is logged in and return profile page       |
+| GET         | `/verify    `           | jwt token                | 200            | 400          | Check if user is logged in and return user details      |
 | POST        | `/signup/coach`                | {name, email, password, description, userType}      | 200         | 404          | Signup coach                       |
 | POST        | `/signup/client`                | {name, email, password, description, userType}      | 200          | 404          | Signup client                      |
 | POST        | `/login`                 | {username, password}         | 200            | 401          | Login              |
