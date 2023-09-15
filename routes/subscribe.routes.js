@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { subscribe, unSubscribe } = require("../controllers/subscribeController");
+const { subscribe,
+        unSubscribe
+} = require("../controllers/subscribeController");
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 
 router.put("/subscribe/:coachId", isAuthenticated, subscribe)

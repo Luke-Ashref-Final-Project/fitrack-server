@@ -9,7 +9,6 @@ const viewOneExercise = async (req, res, next) => {
     }
     const fetchExercise = await Exercise.findById(exerciseId).populate("variation");
     if (fetchExercise) {
-      console.log("THE fetchExercise", fetchExercise);
       return res.status(200).json(fetchExercise);
     }
   } catch (err) {
@@ -52,9 +51,8 @@ const viewExercisesOfCoach = async (req, res, next) => {
 
 const createNewExercise = async (req, res, next) => {
   try {
-   
     const { clientId, coachId, bodyPart, image, description, name, user } = req.body;
-    console.log(user.username)
+
     if (
       clientId === "" ||
       coachId === "" ||
