@@ -34,7 +34,7 @@ const login = async (req, res, next) => {
 
       const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
         algorithm: "HS256",
-        expiresIn: "24h",
+        expiresIn: "1h",
       });
       
       return res.status(200).json({ authToken: authToken, user: payload, message: "Successfully logged in message"  });
