@@ -123,20 +123,28 @@ Variation model
 
 | HTTP Method | URL                         | Request Body                 | Success status | Error Status | Description                                                  |
 | ----------- | --------------------------- | ---------------------------- | -------------- | ------------ | ------------------------------------------------------------ |
-| GET         | `/auth/profile    `           | Saved session                | 200            | 404          | Check if user is logged in and return profile page           |
-| POST        | `/auth/signup`                | {name, email, password}      | 201            | 404          | Checks if fields not empty (422) and user not exists (409), then create user with encrypted password, and store user in session |
-| POST        | `/auth/login`                 | {username, password}         | 200            | 401          | Checks if fields not empty (422), if user exists (404), and if password matches (404), then stores user in session    |
-| POST        | `/auth/logout`                | (empty)                      | 204            | 400          | Logs out the user                                            |
-| POST        | `/search/add`                 | {platform, title, type, id}  |                | 400          | Add new backlog element and add to user                                               |
-| GET         | `/backlog/series`             |                              |                | 400          | Show series elements                                           |
-| GET         | `/backlog/films`              |                              |                |              | Show film elements                                           |
-| GET         | `/backlog/games`              |                              |                |              | Show games elements                                          |
-| GET         | `/media/:id`                        |                              | 201            | 400          | Show specific element                                        |
-| PUT         | `/media/:id`                 |                              | 200            | 400          | edit element                                                 |
-| DELETE      | `/media/:id`                 |                              | 201            | 400          | delete element                                               |
-| GET         | `/done/series`                |                              |                | 400          | Show series elements                                         |
-| GET         | `/done/films`                 |                              |                |              | Show film elements                                           |
-| GET         | `/done/games`                 |                              |                |              | Show games elements                                          |
+| GET         | `/verify    `           | jwt token                | 200            | 400          | Check if user is logged in and return user details      |
+| POST        | `/signup/coach`                | {name, email, password, description, userType}      | 200         | 404          | Signup coach                       |
+| POST        | `/signup/client`                | {name, email, password, description, userType}      | 200          | 404          | Signup client                      |
+| POST        | `/login`                 | {username, password}         | 200            | 401          | Login              |
+| GET         | `/coaches/:coachId`             |      {coachId}         |     200          |      404       | Get a coach by its ID           |
+| GET         | `/profile/getallsubscribers`              |            {user}                  |     200          |     404         | Get all subscribers      |
+| GET         | `/getcoach`              |              {coachId}                |    200     | 404             | Get all coaches                                        |
+| PUT         | `/profile/password`                        |     { currentPassword, newPassword }        | 200           | 400          | Update user's password  |
+| PUT         | `/profile/upload`                 |       {file}                       | 200            | 400          | Upload a photo                  |
+| PUT         | `/profile/description`                 |         { description }     | 200          | 400          | Update user's description                  |
+| DELETE      | `/profile/delete`                |            (empty)       |   200             | 400          | Delete's current logged in user         |
+| PUT         | `/subscribe/:coachId`                 |     {coachId}      |     200           |       400       | Subscribe to coach                      |
+| PUT         | `/unsubscribe/:coachId`                 |            {coachId}      |        200        |     400         | Unsubscribe to coach                         |
+| GET         | `/exercises/coach/:coachId`                 |            {coachId}      |        200        |     400         | Unsubscribe to coach                   |
+| GET         | `/exercises/client/:clientId`                 |            {clientId}      |        200        |     400         | View client's created exercises        |
+| GET         | `/exercise/:exerciseId`                 |            { exerciseId }      |        200        |     400         | View exercise details                   |
+| POST         | `/exercise/new`    |  { clientId, coachId, bodyPart, image, description, name, user }   |        200        |     400         | Create new exercise    |
+| PUT         | `/exercise/:exerciseId`    |  { description, variationId, exerciseId }   |        200        |     400         | Create new exercise    |
+| PUT         | `/exercise/:exerciseId/delete`    |  { exerciseId }   |        200        |     400         |    Delete exercise               |
+| POST         | `/variation/new`    |  { reps, weight }               |        200        |     400         | Create new variation    |
+| PUT         | `/variation/update`    |  { weight, reps, variationId }   |        200        |     404         | Update variation    |
+| DELETE         | `/variation/delete`    |  { variationId }   |        200        |     400         | Delete variation    |
 
 
 
