@@ -11,18 +11,18 @@ const clientSignup = async (req, res, next) => {
         return res.status(400).json({ message: "Provide email, password, username and description" });
       }
     
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({ message: "Provide a valid email address." });
-      }
+      // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      // if (!emailRegex.test(email)) {
+      //   return res.status(400).json({ message: "Provide a valid email address." });
+      // }
     
-      const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
-      if (!passwordRegex.test(password)) {
-        return res.status(400).json({
-          message:
-            "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
-        });
-      }
+      // const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+      // if (!passwordRegex.test(password)) {
+      //   return res.status(400).json({
+      //     message:
+      //       "Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.",
+      //   });
+      // }
 
     const foundClient = await Client.findOne({ email });
     if (foundClient) {
